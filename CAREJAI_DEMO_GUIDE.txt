@@ -1,0 +1,208 @@
+Care-Jai Demo Guide
+===================
+
+1. Product Overview
+-------------------
+Care-Jai is an AI wellness companion concept for older adults, families, and caregivers.
+The product focuses on daily check-ins, senior-friendly conversation, verified family contact,
+community encouragement, caregiver alerts, and real-time wellness visibility.
+
+The current implementation is a working web prototype. It uses simulated wellness data and is
+not a medical device. Care-Jai does not diagnose disease and does not tell users to start,
+stop, increase, reduce, or repeat medication. High-risk situations are designed to escalate
+to a real caregiver or emergency service.
+
+
+2. What the Demo Shows
+----------------------
+The demo has four main views:
+
+1) Senior
+   This view simulates the phone screen of the older adult.
+   Main features:
+   - Talk to Care-Jai: AI wellness check-in with text and voice support.
+   - Call Family: call only verified family contacts to reduce scam risk.
+   - Today Routine: show daily routine status such as medicine, walking, water, and video call.
+   - Community: post a good moment and send encouragement to other seniors.
+   - Check Scam Call: compare incoming callers with verified family contacts.
+
+2) Family
+   This view simulates what family members should see.
+   It provides a simple, reassuring report:
+   - Today score
+   - Summary report
+   - Alerts and acknowledgement
+   - Trusted call status
+   - Recent community stories shared by the senior
+
+3) Caregiver
+   This view is more detailed than the family view.
+   It shows operational information for a caregiver:
+   - Real-time wellness summary
+   - Vitals from simulated data
+   - Alert queue
+   - AI safety checks
+   - Risk analysis
+   - Care plan
+   - Risk timeline
+
+4) Demo Control
+   This view controls the live presentation.
+   It includes:
+   - Microsoft Runtime Keys form
+   - Scenario cards
+   - Live prompt override
+
+
+3. Microsoft Connection
+-----------------------
+Care-Jai is designed to connect with Microsoft Azure services:
+
+- Azure OpenAI / Microsoft Foundry
+  Used for empathetic AI conversation and structured wellness responses.
+
+- Azure AI Speech
+  Used for speech-to-text and text-to-speech interaction.
+
+- Azure Cosmos DB
+  Used for persona, routine logs, care events, alerts, and community posts.
+
+- Azure AI Search
+  Used for grounded wellness knowledge.
+
+- Azure AI Content Safety
+  Used for safety checks around user input and AI output.
+
+- Application Insights
+  Used for tracing, latency visibility, and operational monitoring.
+
+- Azure App Service
+  Intended deployment target for the Next.js web app.
+
+In Demo Control, Microsoft keys can be pasted into "Microsoft Runtime Keys".
+These runtime keys are stored only in server memory for the current local session.
+They are not written to .env files and will be cleared when the dev server restarts
+or when the "Clear runtime keys" button is pressed.
+
+
+4. How to Run the Demo
+----------------------
+Open PowerShell and go to the project folder:
+
+cd C:\Users\supha\Desktop\CareJai
+
+Install dependencies if needed:
+
+npm install
+
+Run the local development server:
+
+npm run dev
+
+Open the demo in a browser:
+
+http://127.0.0.1:3000
+
+If the server is already running, refresh the browser page.
+
+
+5. Recommended Presentation Flow
+--------------------------------
+Use this flow for a clean live demo:
+
+Step 1: Open Senior view
+- Show the iPhone-like senior interface.
+- Explain that this is designed for older adults with large buttons and simple navigation.
+- Point out Get help, Talk to Care-Jai, Call Family, Today Routine, Community, and Check Scam Call.
+
+Step 2: Talk to Care-Jai
+- Click "Talk to Care-Jai".
+- Send the default check-in message or type a custom message.
+- Explain that Azure OpenAI can generate a warm wellness response, while fallback mode keeps the demo reliable.
+
+Step 3: Run Missed Medicine scenario
+- Go to Demo Control.
+- Click Run on "Missed Medicine".
+- Explain that the system detects a mild risk pattern from a missed routine and simulated blood pressure.
+
+Step 4: Open Family view
+- Show the simple family report.
+- Explain that family members do not need a complex clinical dashboard.
+- They see the score, alert, recommended action, and trusted call status.
+
+Step 5: Open Caregiver view
+- Show the detailed dashboard.
+- Explain that caregivers need more evidence, risk factors, timeline, and care plan.
+- Point out that Care-Jai uses human-in-the-loop wording and avoids diagnosis.
+
+Step 6: Run High-Risk Check scenario
+- Go to Demo Control.
+- Click Run on "High-Risk Check".
+- Show how the AI response and dashboard escalate to caregiver or emergency review.
+- Emphasize that the system does not diagnose; it prompts human review.
+
+Step 7: Run Scam Call scenario
+- Go to Demo Control.
+- Click Run on "Scam Call".
+- Return to Senior view and open "Check Scam Call".
+- Explain that Care-Jai compares incoming callers with verified family contacts.
+
+Step 8: Show Community
+- Open "Community" in Senior view.
+- Post a short positive story.
+- Click "Encourage" on a post.
+- Explain that the product supports social wellness, not only risk monitoring.
+
+
+6. Demo Scenarios
+-----------------
+Normal Day
+- Shows a stable daily check-in.
+- Good for introducing the product calmly.
+
+Missed Medicine
+- Creates a medium-level alert.
+- Shows routine anomaly plus simulated elevated blood pressure.
+- Recommended action: caregiver gently verifies the pillbox.
+
+High-Risk Check
+- Creates a high-level alert.
+- Simulates dizziness, mild chest tightness, and being alone at home.
+- Recommended action: contact caregiver immediately and escalate if symptoms worsen.
+
+Scam Call
+- Simulates an unknown caller claiming to be family.
+- Care-Jai recommends ending the call and calling May from verified contacts.
+
+Community Post
+- Shows social wellness through positive story sharing and encouragement.
+
+
+7. Key Safety Message
+---------------------
+Care-Jai is a wellness support prototype, not a medical device.
+It uses simulated data in this demo.
+It does not diagnose disease.
+It does not make medication decisions.
+It encourages human review when risk signals appear.
+
+
+8. Short Pitch Script
+---------------------
+Care-Jai is a senior-friendly AI wellness companion powered by Microsoft Azure AI.
+For older adults, it provides a simple phone-like experience for daily check-ins,
+safe family contact, routine support, and community encouragement.
+For families, it summarizes what matters without overwhelming them.
+For caregivers, it provides a deeper dashboard with evidence, alerts, and next steps.
+The prototype demonstrates how Azure OpenAI, Azure AI Speech, Cosmos DB,
+AI Search, Content Safety, and Application Insights can work together to create
+a safer, warmer, and more reliable care experience.
+
+
+9. Notes for the Presenter
+--------------------------
+- Keep the story focused on product value, not only technical features.
+- Mention Microsoft services when showing AI response, speech, data, and monitoring.
+- Say clearly that data is simulated.
+- Say clearly that this is wellness-only and human-in-the-loop.
+- Use Demo Control for reliable live presentation instead of depending on a single free-form prompt.
