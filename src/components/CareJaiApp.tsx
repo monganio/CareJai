@@ -591,7 +591,7 @@ export function CareJaiApp() {
               </div>
               <div className="profile-copy">
                 <Text weight="semibold">Care-Jai Demo Persona</Text>
-                <Text size={200}>{summary?.persona.name ?? "Mrs. Somporn Jaidee"}</Text>
+                <Text size={200}>{summary?.persona.name ?? "Mrs. Somsri Jaidee"}</Text>
                 <Text size={200}>Primary caregiver: {summary?.persona.caregiver.name ?? "May"} via Teams</Text>
               </div>
             </Card>
@@ -810,7 +810,7 @@ function PhoneAi(props: {
       </div>
       <div className="chat-bubble user">I want to check in today.</div>
       <div className="chat-bubble ai">
-        {props.response?.reply ?? "Hi Somporn. What would you like Care-Jai to help with today?"}
+        {props.response?.reply ?? "Hi Somsri. What would you like Care-Jai to help with today?"}
       </div>
       <Textarea value={props.message} onChange={(_, data) => props.onMessageChange(data.value)} resize="vertical" />
       <div className="button-row">

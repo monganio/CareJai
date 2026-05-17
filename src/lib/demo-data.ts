@@ -11,9 +11,9 @@ import type {
 } from "./types";
 
 const persona: Persona = {
-  id: "somporn",
-  name: "Mrs. Somporn Jaidee",
-  shortName: "Somporn",
+  id: "somsri",
+  name: "Mrs. Somsri Jaidee",
+  shortName: "Somsri",
   age: 72,
   location: "Bang Na, Bangkok",
   caregiver: {
@@ -243,8 +243,8 @@ export function buildDemoState(scenario: DemoScenario = "normal"): DemoState {
 
   if (scenario === "community_post") {
     communityPosts.unshift({
-      id: "post-somporn",
-      author: "Somporn",
+      id: "post-somsri",
+      author: "Somsri",
       title: "Made clear soup for lunch",
       body: "I made a simple vegetable soup today. It was light, warm, and not too salty.",
       category: "food",
@@ -252,7 +252,7 @@ export function buildDemoState(scenario: DemoScenario = "normal"): DemoState {
       timestamp: nowMinus(3),
     });
     events.push(
-      event("community-share", "message", "Community share", "Somporn shared a food story in the warm community", "low", 3),
+      event("community-share", "message", "Community share", "Somsri shared a food story in the warm community", "low", 3),
     );
   }
 
