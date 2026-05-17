@@ -369,24 +369,24 @@ p {
 
 .senior-experience {
   display: grid;
-  grid-template-columns: 390px minmax(0, 1fr);
+  grid-template-columns: 372px minmax(0, 1fr);
   gap: 20px;
   align-items: start;
 }
 
 .family-experience {
   display: grid;
-  grid-template-columns: 390px minmax(0, 1fr);
+  grid-template-columns: 372px minmax(0, 1fr);
   gap: 20px;
   align-items: start;
 }
 
 .iphone-frame {
   position: relative;
-  width: min(390px, 100%);
-  min-height: 812px;
+  width: min(372px, 100%);
+  height: 744px;
   padding: 10px;
-  border-radius: 48px;
+  border-radius: 46px;
   background:
     linear-gradient(145deg, #2f3634, #070908 38%, #2d3331 100%);
   box-shadow:
@@ -403,23 +403,23 @@ p {
 
 .iphone-button.volume {
   left: -3px;
-  top: 150px;
-  height: 82px;
+  top: 132px;
+  height: 72px;
 }
 
 .iphone-button.power {
   right: -3px;
-  top: 190px;
-  height: 96px;
+  top: 176px;
+  height: 86px;
 }
 
 .iphone-bezel {
   position: relative;
   display: grid;
   grid-template-rows: auto minmax(0, 1fr) auto auto;
-  min-height: 792px;
+  height: 724px;
   overflow: hidden;
-  border-radius: 40px;
+  border-radius: 38px;
   background: #f5f7fb;
 }
 
@@ -428,8 +428,8 @@ p {
   z-index: 3;
   top: 12px;
   left: 50%;
-  width: 116px;
-  height: 34px;
+  width: 108px;
+  height: 31px;
   border-radius: 999px;
   background: #050706;
   transform: translateX(-50%);
@@ -441,15 +441,15 @@ p {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 54px;
-  padding: 14px 26px 4px;
+  height: 50px;
+  padding: 13px 24px 3px;
   color: #17211c;
   font-size: 12px;
   font-weight: 700;
 }
 
 .iphone-screen {
-  min-height: 642px;
+  min-height: 0;
   overflow: auto;
   background:
     radial-gradient(circle at 20% 0%, rgba(217, 242, 231, 0.95), transparent 34%),
@@ -460,14 +460,14 @@ p {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 6px;
-  padding: 9px 14px 7px;
+  padding: 8px 14px 6px;
   border-top: 1px solid rgba(22, 32, 28, 0.08);
   background: rgba(255, 255, 255, 0.86);
   backdrop-filter: blur(12px);
 }
 
 .ios-tabbar button {
-  min-height: 42px;
+  min-height: 38px;
   color: var(--teal);
   background: transparent;
   border: 0;
@@ -483,15 +483,15 @@ p {
 .home-indicator {
   width: 128px;
   height: 5px;
-  margin: 7px auto 10px;
+  margin: 6px auto 9px;
   border-radius: 999px;
   background: #111815;
 }
 
 .phone-app {
   display: grid;
-  gap: 14px;
-  padding: 18px;
+  gap: 12px;
+  padding: 16px;
 }
 
 .phone-back-home {
@@ -502,7 +502,7 @@ p {
   align-items: center;
   justify-content: center;
   width: calc(100% - 36px);
-  min-height: 46px;
+  min-height: 42px;
   margin: 10px 18px -4px;
   border: 1px solid rgba(15, 118, 110, 0.22);
   border-radius: 999px;
@@ -545,10 +545,10 @@ p {
 
 .today-card {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 74px;
+  grid-template-columns: minmax(0, 1fr) 66px;
   gap: 12px;
   align-items: center;
-  padding: 16px;
+  padding: 14px;
   color: #ffffff;
   border-radius: 24px;
   background: linear-gradient(135deg, #0f766e, #2e7d61);
@@ -557,7 +557,7 @@ p {
 
 .today-card strong {
   display: block;
-  font-size: 54px;
+  font-size: 46px;
   line-height: 0.95;
 }
 
@@ -565,7 +565,7 @@ p {
   display: grid;
   place-items: center;
   width: 72px;
-  height: 72px;
+  height: 66px;
   border-radius: 50%;
   color: #0d4f45;
   background:
@@ -577,7 +577,7 @@ p {
 
 .emergency-button {
   width: 100%;
-  min-height: 54px;
+  min-height: 48px;
   border: 0;
   border-radius: 18px;
   color: #ffffff;
@@ -626,8 +626,8 @@ p {
   display: grid;
   place-items: center;
   gap: 10px;
-  min-height: 104px;
-  padding: 12px;
+  min-height: 92px;
+  padding: 10px;
   color: var(--ink);
   background: rgba(255, 255, 255, 0.94);
   border: 1px solid rgba(22, 32, 28, 0.08);
@@ -639,8 +639,8 @@ p {
 .phone-app-button span {
   display: grid;
   place-items: center;
-  width: 44px;
-  height: 44px;
+  width: 40px;
+  height: 40px;
   color: #ffffff;
   border-radius: 14px;
   background: var(--teal);
@@ -648,7 +648,7 @@ p {
 
 .phone-app-button.wide {
   grid-column: 1 / -1;
-  min-height: 86px;
+  min-height: 74px;
   grid-template-columns: auto minmax(0, 1fr);
   place-items: center start;
 }
@@ -1094,16 +1094,17 @@ p {
   }
 
   .iphone-frame {
-    min-height: auto;
+    width: min(372px, 100%);
+    height: 744px;
     border-radius: 36px;
   }
 
   .iphone-bezel {
-    min-height: 740px;
+    height: 724px;
   }
 
   .iphone-screen {
-    min-height: 620px;
+    min-height: 0;
   }
 
   .family-score-card {
