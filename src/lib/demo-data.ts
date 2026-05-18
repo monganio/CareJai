@@ -54,7 +54,7 @@ const persona: Persona = {
       lastContact: "2 days ago",
     },
   ],
-  conditions: ["high blood pressure", "light sleep", "occasionally forgets morning medicine"],
+  conditions: ["light sleep", "occasionally forgets morning medicine", "wears a smartwatch for wellness signals"],
   preferences: {
     language: "en-US",
     voiceName: "en-US-JennyNeural",
@@ -63,7 +63,7 @@ const persona: Persona = {
   routines: [
     {
       id: "med-morning",
-      title: "Morning blood pressure medicine",
+      title: "Morning medicine",
       time: "08:00",
       status: "done",
       importance: "high",
@@ -138,9 +138,10 @@ export function buildDemoState(scenario: DemoScenario = "normal"): DemoState {
   const routines = persona.routines.map((routine) => ({ ...routine }));
   const events: CareEvent[] = [
     event("sleep", "vital", "Sleep", "Slept for 6.5 continuous hours", "low", 360, 6.5, "hrs"),
-    event("bp", "vital", "Blood pressure", "Morning blood pressure is in the monitored range", "low", 240, "132/82", "mmHg"),
+    event("rhr", "vital", "Resting heart rate", "Resting heart rate is close to the 7-day smartwatch baseline", "low", 240, 68, "bpm"),
+    event("activity", "routine", "Activity", "Smartwatch recorded a gentle 18-minute walk", "low", 210, 18, "min"),
     event("mood", "mood", "Mood", "Checked in as calm and looking forward to talking with May", "low", 160, "calm"),
-    event("med", "routine", "Morning medicine", "Confirmed morning blood pressure medicine", "low", 130),
+    event("med", "routine", "Morning medicine", "Confirmed morning medicine", "low", 130),
   ];
   const alerts: CareAlert[] = [];
   const communityPosts: CommunityPost[] = [
@@ -177,15 +178,16 @@ export function buildDemoState(scenario: DemoScenario = "normal"): DemoState {
     routines[0].status = "missed";
     events.push(
       event("missed-med", "routine", "Morning medicine", "No confirmation was found after 09:30", "medium", 45),
-      event("bp-up", "vital", "Blood pressure", "Blood pressure is slightly above the 7-day demo baseline", "medium", 35, "148/88", "mmHg"),
+      event("rhr-up", "vital", "Resting heart rate", "Resting heart rate is above the 7-day smartwatch baseline", "medium", 35, 88, "bpm"),
+      event("low-activity", "routine", "Activity", "Smartwatch recorded only 4 active minutes by late morning", "medium", 30, 4, "min"),
     );
     alerts.push(
       alert(
         "alert-med",
         "medium",
-        "Possible missed medicine pattern with elevated blood pressure",
-        ["Morning medicine has not been confirmed", "Blood pressure is 148/88 mmHg", "Sleep was shorter than usual last night"],
-        "Ask the caregiver to call gently and verify the pillbox before making any medication decision.",
+        "Possible missed routine with changed smartwatch signals",
+        ["Morning medicine has not been confirmed", "Resting heart rate is 88 bpm versus a 68 bpm baseline", "Activity is lower than usual this morning"],
+        "Ask the caregiver to call gently and verify the pillbox and comfort level before making any medication decision.",
         25,
       ),
     );
@@ -196,13 +198,14 @@ export function buildDemoState(scenario: DemoScenario = "normal"): DemoState {
     events.push(
       event("dizzy", "message", "Senior message", "Reported dizziness, mild chest tightness, and being alone at home", "high", 15),
       event("hr", "vital", "Heart rate", "Heart rate is high in the simulated reading", "high", 12, 112, "bpm"),
+      event("fall-alert", "alert", "Fall alert", "Smartwatch emergency signal indicates a possible fall and needs confirmation", "high", 11),
     );
     alerts.push(
       alert(
         "alert-high",
         "high",
         "Signals require immediate human review",
-        ["Senior reported chest tightness", "Heart rate is 112 bpm", "Senior is alone at home"],
+        ["Senior reported chest tightness", "Heart rate is 112 bpm", "Smartwatch fall alert needs confirmation", "Senior is alone at home"],
         "Contact the caregiver immediately. If symptoms are severe or worsening, contact local emergency services.",
         10,
       ),

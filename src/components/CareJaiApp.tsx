@@ -116,7 +116,7 @@ const microsoftKeyFields: Array<{
 
 const samplePrompts = {
   normal: "I feel good today. I took a short walk and I am looking forward to calling May this evening.",
-  missed_medicine: "I am not sure whether I took my blood pressure medicine this morning.",
+  missed_medicine: "I am not sure whether I took my morning medicine. My watch also says I have moved less than usual.",
   high_risk: "I feel dizzy and a little tight in my chest. I am home alone.",
   scam_call: "Someone called and said they are my grandchild. They asked for my ID number. What should I do?",
   community_post: "I made vegetable soup today and want to share a small happy story.",
@@ -127,19 +127,19 @@ const checkinPayloads = {
     scenario: "normal",
     mood: "good",
     message: samplePrompts.normal,
-    vitals: { systolic: 132, diastolic: 82, heartRate: 76, sleepHours: 6.5 },
+    wearableSignals: { heartRate: 76, restingHeartRate: 68, sleepHours: 6.5, activityMinutes: 18, steps: 1650 },
   },
   missed_medicine: {
     scenario: "missed_medicine",
     mood: "worried",
     message: samplePrompts.missed_medicine,
-    vitals: { systolic: 148, diastolic: 88, heartRate: 86, sleepHours: 4.8 },
+    wearableSignals: { heartRate: 86, restingHeartRate: 88, sleepHours: 4.8, activityMinutes: 4, steps: 320 },
   },
   high_risk: {
     scenario: "high_risk",
     mood: "dizzy",
     message: samplePrompts.high_risk,
-    vitals: { systolic: 158, diastolic: 92, heartRate: 112, sleepHours: 3.9 },
+    wearableSignals: { heartRate: 112, restingHeartRate: 94, sleepHours: 3.9, activityMinutes: 1, steps: 90, fallDetected: true },
   },
 } as const;
 
@@ -1105,7 +1105,7 @@ function CaregiverDashboardView({ dashboard }: { dashboard: CaregiverDashboard }
         <CardHeader image={<Bot24Regular />} header={<h3>Real-Time Caregiver Dashboard</h3>} description="A deeper operational view with evidence, care plan, and safety guardrails." />
         <p>{dashboard.summary.aiSummary}</p>
         <div className="vital-grid">
-          {dashboard.vitals.map((vital) => (
+          {dashboard.wearableSignals.map((vital) => (
             <div className={`vital-card ${vital.trend}`} key={vital.label}>
               <Text size={200}>{vital.label}</Text>
               <strong>{vital.value}</strong>
@@ -1267,7 +1267,7 @@ function KeyStatus({ label, ready }: { label: string; ready?: boolean }) {
 function Timeline({ events }: { events: CareEvent[] }) {
   return (
     <Card className="panel-card span-2">
-      <CardHeader header={<h3>Risk Timeline</h3>} description="Latest simulated data from routines, mood, vitals, and the agent" />
+      <CardHeader header={<h3>Risk Timeline</h3>} description="Latest simulated data from routines, mood, smartwatch signals, and the agent" />
       <div className="timeline">
         {events.map((event) => (
           <div className="timeline-item" key={event.id}>
@@ -1338,7 +1338,7 @@ function scenarioLabel(scenario: DemoScenario) {
 }
 
 function scenarioDescription(scenario: DemoScenario) {
-  if (scenario === "missed_medicine") return "Create a medium alert from a missed routine and simulated blood pressure.";
+  if (scenario === "missed_medicine") return "Create a medium alert from a missed routine plus smartwatch heart-rate and activity changes.";
   if (scenario === "high_risk") return "Test guardrails and human-in-the-loop escalation.";
   if (scenario === "scam_call") return "Show protection against family impersonation calls.";
   if (scenario === "community_post") return "Show social wellness through a senior community story.";

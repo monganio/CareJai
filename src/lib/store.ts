@@ -19,7 +19,11 @@ globalState.careJaiDemo ??= {};
 function getMemoryState(): DemoState {
   const currentState = globalState.careJaiDemo?.memoryState;
   if (currentState) {
-    return currentState;
+    const normalizedState = normalizeState(currentState);
+    if (normalizedState !== currentState) {
+      setMemoryState(normalizedState);
+    }
+    return normalizedState;
   }
 
   const nextState = buildDemoState("normal");
@@ -32,6 +36,25 @@ function setMemoryState(state: DemoState) {
     ...globalState.careJaiDemo,
     memoryState: state,
   };
+}
+
+function normalizeState(state: DemoState): DemoState {
+  const legacyText = JSON.stringify({
+    persona: state.persona,
+    events: state.events,
+    alerts: state.alerts,
+    lastAgentResponse: state.lastAgentResponse,
+  }).toLowerCase();
+
+  if (
+    legacyText.includes("blood pressure") ||
+    legacyText.includes("mmhg") ||
+    legacyText.includes("wellness check-in signals")
+  ) {
+    return buildDemoState(state.scenario);
+  }
+
+  return state;
 }
 
 async function getCosmosContainer(): Promise<Container | undefined> {
@@ -73,19 +96,22 @@ export async function loadDemoState(): Promise<{ state: DemoState; usedCosmos: b
   try {
     const { resource } = await container.item("demo-state", "state").read<DemoStateDocument>();
     if (resource) {
-      return {
-        state: {
-          scenario: resource.scenario,
-          persona: resource.persona,
-          events: resource.events,
-          alerts: resource.alerts,
-          communityPosts: resource.communityPosts ?? [],
-          latestCallSignal: resource.latestCallSignal,
-          lastAgentResponse: resource.lastAgentResponse,
-          updatedAt: resource.updatedAt,
-        },
-        usedCosmos: true,
-      };
+      const state = normalizeState({
+        scenario: resource.scenario,
+        persona: resource.persona,
+        events: resource.events,
+        alerts: resource.alerts,
+        communityPosts: resource.communityPosts ?? [],
+        latestCallSignal: resource.latestCallSignal,
+        lastAgentResponse: resource.lastAgentResponse,
+        updatedAt: resource.updatedAt,
+      });
+
+      if (state.updatedAt !== resource.updatedAt) {
+        await saveDemoState(state);
+      }
+
+      return { state, usedCosmos: true };
     }
   } catch {
     // A missing document is expected on first run.

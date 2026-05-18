@@ -45,20 +45,24 @@ function createCheckinEvents(state: DemoState, payload: CheckinPayload, severity
     });
   }
 
-  if (payload.vitals?.systolic || payload.vitals?.heartRate || payload.vitals?.sleepHours) {
+  if (payload.wearableSignals) {
+    const signals = payload.wearableSignals;
     events.push({
       id: `checkin-vital-${Date.now()}`,
       personaId: state.persona.id,
       kind: "vital",
-      label: "Wellness check-in signals",
+      label: "Smartwatch signals",
       value: [
-        payload.vitals.systolic ? `${payload.vitals.systolic}/${payload.vitals.diastolic ?? "?"} mmHg` : undefined,
-        payload.vitals.heartRate ? `${payload.vitals.heartRate} bpm` : undefined,
-        payload.vitals.sleepHours ? `${payload.vitals.sleepHours} hrs` : undefined,
+        signals.heartRate ? `HR ${signals.heartRate} bpm` : undefined,
+        signals.restingHeartRate ? `Resting HR ${signals.restingHeartRate} bpm` : undefined,
+        signals.sleepHours ? `Sleep ${signals.sleepHours} hrs` : undefined,
+        signals.activityMinutes !== undefined ? `Activity ${signals.activityMinutes} min` : undefined,
+        signals.steps !== undefined ? `${signals.steps} steps` : undefined,
+        signals.fallDetected ? "Fall alert" : undefined,
       ]
         .filter(Boolean)
-        .join(" · "),
-      note: "Simulated wellness data from the demo control panel",
+        .join(" | "),
+      note: "Simulated smartwatch data from the demo control panel",
       severity,
       timestamp: new Date().toISOString(),
       source: "simulated",
@@ -248,24 +252,30 @@ export async function getCaregiverDashboard(): Promise<CaregiverDashboard> {
 
   return {
     summary,
-    vitals: [
-      {
-        label: "Blood pressure",
-        value: latestAlert?.severity === "high" ? "158/92" : latestAlert ? "148/88" : "132/82",
-        trend: latestAlert?.severity === "high" ? "urgent" : latestAlert ? "watch" : "stable",
-        detail: "mmHg from latest simulated reading",
-      },
+    wearableSignals: [
       {
         label: "Heart rate",
-        value: latestAlert?.severity === "high" ? "112" : "76",
-        trend: latestAlert?.severity === "high" ? "urgent" : "stable",
-        detail: "bpm",
+        value: latestAlert?.severity === "high" ? "112 bpm" : latestAlert ? "86 bpm" : "76 bpm",
+        trend: latestAlert?.severity === "high" ? "urgent" : latestAlert ? "watch" : "stable",
+        detail: "Latest simulated smartwatch reading",
+      },
+      {
+        label: "Resting HR",
+        value: latestAlert?.severity === "high" ? "94 bpm" : latestAlert ? "88 bpm" : "68 bpm",
+        trend: latestAlert?.severity === "high" ? "urgent" : latestAlert ? "watch" : "stable",
+        detail: "Compared with 7-day baseline",
       },
       {
         label: "Sleep",
         value: latestAlert ? "4.8 hrs" : "6.5 hrs",
         trend: latestAlert ? "watch" : "stable",
         detail: "Compared with the 7-day baseline",
+      },
+      {
+        label: "Activity",
+        value: latestAlert?.severity === "high" ? "1 min" : latestAlert ? "4 min" : "18 min",
+        trend: latestAlert?.severity === "high" ? "urgent" : latestAlert ? "watch" : "stable",
+        detail: "Smartwatch active minutes this morning",
       },
       {
         label: "Mood",

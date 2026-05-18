@@ -4,21 +4,24 @@ const includesAny = (value: string, words: string[]) => words.some((word) => val
 
 export function assessCheckin(payload: CheckinPayload, state: DemoState) {
   const message = `${payload.message ?? ""} ${payload.mood ?? ""}`.toLowerCase();
-  const systolic = payload.vitals?.systolic;
-  const heartRate = payload.vitals?.heartRate;
-  const sleepHours = payload.vitals?.sleepHours;
+  const signals = payload.wearableSignals;
+  const heartRate = signals?.heartRate;
+  const restingHeartRate = signals?.restingHeartRate;
+  const sleepHours = signals?.sleepHours;
+  const activityMinutes = signals?.activityMinutes;
+  const fallDetected = signals?.fallDetected;
 
   let severity: RiskSeverity = "low";
   const evidence: string[] = [];
 
   if (payload.scenario === "missed_medicine") {
     severity = "medium";
-    evidence.push("Morning medicine has not been confirmed", "Blood pressure is slightly above the demo baseline");
+    evidence.push("Morning medicine has not been confirmed", "Resting heart rate is above the smartwatch baseline", "Activity is lower than usual");
   }
 
   if (payload.scenario === "high_risk") {
     severity = "high";
-    evidence.push("Senior reported chest tightness or dizziness", "Senior is alone at home in the demo scenario");
+    evidence.push("Senior reported chest tightness or dizziness", "Smartwatch signal needs immediate confirmation", "Senior is alone at home in the demo scenario");
   }
 
   if (includesAny(message, ["chest pain", "chest tightness", "cannot breathe", "short of breath", "faint"])) {
@@ -31,19 +34,29 @@ export function assessCheckin(payload: CheckinPayload, state: DemoState) {
     evidence.push("Senior mentioned uncertainty about medicine");
   }
 
-  if (typeof systolic === "number" && systolic >= 145) {
-    severity = severity === "high" ? "high" : "medium";
-    evidence.push(`Systolic blood pressure ${systolic} mmHg is above the demo watch threshold`);
-  }
-
   if (typeof heartRate === "number" && heartRate >= 110) {
     severity = "high";
     evidence.push(`Heart rate ${heartRate} bpm is high in the simulated reading`);
   }
 
+  if (typeof restingHeartRate === "number" && restingHeartRate >= 85) {
+    severity = severity === "high" ? "high" : "medium";
+    evidence.push(`Resting heart rate ${restingHeartRate} bpm is above the demo smartwatch baseline`);
+  }
+
   if (typeof sleepHours === "number" && sleepHours < 5) {
     severity = severity === "high" ? "high" : "medium";
     evidence.push(`Sleep was only ${sleepHours} hours`);
+  }
+
+  if (typeof activityMinutes === "number" && activityMinutes < 10) {
+    severity = severity === "high" ? "high" : "medium";
+    evidence.push(`Activity was only ${activityMinutes} minutes this morning`);
+  }
+
+  if (fallDetected) {
+    severity = "high";
+    evidence.push("Smartwatch fall alert needs immediate human confirmation");
   }
 
   const fallbackAlert =
@@ -72,7 +85,7 @@ function buildAlert(state: DemoState, severity: Exclude<RiskSeverity, "low">, ev
     recommendedAction:
       severity === "high"
         ? "Contact the caregiver immediately. If symptoms are severe or worsening, contact local emergency services."
-        : "Ask the caregiver to call gently, verify the routine, and avoid medication decisions without confirmation.",
+        : "Ask the caregiver to call gently, verify the routine and smartwatch context, and avoid medication decisions without confirmation.",
     humanReviewStatus: "pending",
     timestamp: new Date().toISOString(),
   };

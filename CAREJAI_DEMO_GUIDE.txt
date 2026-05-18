@@ -123,7 +123,7 @@ Step 2: Talk to Care-Jai
 Step 3: Run Missed Medicine scenario
 - Go to Demo Control.
 - Click Run on "Missed Medicine".
-- Explain that the system detects a mild risk pattern from a missed routine and simulated blood pressure.
+- Explain that the system detects a mild risk pattern from a missed routine plus simulated smartwatch signals: resting heart rate, sleep, and activity.
 
 Step 4: Open Family view
 - Show the simple family report.
@@ -162,12 +162,12 @@ Normal Day
 
 Missed Medicine
 - Creates a medium-level alert.
-- Shows routine anomaly plus simulated elevated blood pressure.
-- Recommended action: caregiver gently verifies the pillbox.
+- Shows routine anomaly plus smartwatch changes such as elevated resting heart rate and low activity.
+- Recommended action: caregiver gently verifies the pillbox, comfort level, and smartwatch context.
 
 High-Risk Check
 - Creates a high-level alert.
-- Simulates dizziness, mild chest tightness, and being alone at home.
+- Simulates dizziness, mild chest tightness, high heart rate, a fall alert, and being alone at home.
 - Recommended action: contact caregiver immediately and escalate if symptoms worsen.
 
 Scam Call

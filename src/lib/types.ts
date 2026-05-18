@@ -116,11 +116,13 @@ export interface CheckinPayload {
   scenario?: DemoScenario;
   mood?: "good" | "neutral" | "worried" | "tired" | "dizzy";
   message?: string;
-  vitals?: {
-    systolic?: number;
-    diastolic?: number;
+  wearableSignals?: {
     heartRate?: number;
+    restingHeartRate?: number;
     sleepHours?: number;
+    activityMinutes?: number;
+    steps?: number;
+    fallDetected?: boolean;
   };
 }
 
@@ -161,7 +163,7 @@ export interface FamilyReport {
 
 export interface CaregiverDashboard {
   summary: CareSummary;
-  vitals: Array<{
+  wearableSignals: Array<{
     label: string;
     value: string;
     trend: "stable" | "watch" | "urgent";
